@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+    background-color: #edf2f7; /* Light grayish blue */
+    font-family: 'Arial', sans-serif; /* Clean font for better readability */
+    color: #2d3748; /* Dark gray text */
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(145deg, #ffffff, #e6e9ef); /* Subtle gradient for the card background */
+    border: 1px solid #e2e8f0; /* Light border for better contrast */
+}
+
+.card-header {
+    background-color: #4caf50; /* Soothing green */
+    color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 15px 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.card-body {
+    padding: 25px;
+    background-color: #f9fafb; /* Off-white for content contrast */
+    border-radius: 0 0 12px 12px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2d3748; /* Darker text for labels */
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    padding: 10px 15px;
+    border: 1px solid #cbd5e0; /* Soft border for input elements */
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: #2d3748;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: #4caf50; /* Matching green focus color */
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+button {
+    background-color: #4caf50; /* Soothing green */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #388e3c; /* Slightly darker green for hover */
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #2e7d32; /* Even darker green for active state */
+    transform: translateY(0);
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Job Description and Resume Matcher</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/matcher" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="job_description">Job Description:</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resumes">Upload Resumes:</label>
+                        <p>Please Upload Resumes More than 5...........</p>
+                        <input type="file" class="form-control" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Match Resumes</button>
+                </form>
+                {% if message %}
+                    <div class="alert alert-info mt-4">
+                        <p>{{ message }}</p>
+                        <ul>
+                            {% for index in range(top_resumes|length) %}
+                                <li>{{ top_resumes[index] }} (Similarity Score: {{ similarity_scores[index] }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
